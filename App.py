@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect
 import sqlite3
-from datetime import datetime
+import os
 
 app = Flask(__name__)
 DB = 'sales.db'
@@ -8,33 +8,36 @@ DB = 'sales.db'
 def init_db():
     conn = sqlite3.connect(DB)
     c = conn.cursor()
-    c.execute('CREATE TABLE IF NOT EXISTS sales (id INTEGER PRIMARY KEY, item TEXT, amount INTEGER, date TEXT)')
+    c.execute('''CREATE TABLE IF NOT EXISTS sales
+                 (id INTEGER PRIMARY KEY, item TEXT, price REAL, qty INTEGER)''')
     conn.commit()
     conn.close()
 
-@app.route('/')
-def home():
+@app.route('/', methods=['GET', 'POST'])
+def index():
     init_db()
     conn = sqlite3.connect(DB)
     c = conn.cursor()
-    c.execute('SELECT * FROM sales ORDER BY id DESC')
+    if request.method == 'POST':
+        item = request.form.get('item')
+        price = float(request.form.get('price', 0))
+        qty = int(request.form.get('qty', 1))
+        c.execute("INSERT INTO sales (item, price, qty) VALUES (?,?,?)", (item, price, qty))
+        conn.commit()
+    c.execute("SELECT * FROM sales ORDER BY id DESC")
     sales = c.fetchall()
-    c.execute('SELECT SUM(amount) FROM sales')
-    total = c.fetchone()[0] or 0
+    total = sum(row[2] * row[3] for row in sales)
     conn.close()
     return render_template('index.html', sales=sales, total=total)
 
-@app.route('/add', methods=['POST'])
-def add():
-    item = request.form['item']
-    amount = request.form['amount']
-    date = datetime.now().strftime("%d-%m-%Y %H:%M")
+@app.route('/delete/<int:id>')
+def delete(id):
     conn = sqlite3.connect(DB)
     c = conn.cursor()
-    c.execute('INSERT INTO sales (item, amount, date) VALUES (?,?,?)', (item, amount, date))
+    c.execute("DELETE FROM sales WHERE id=?", (id,))
     conn.commit()
     conn.close()
     return redirect('/')
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000) 
+    app.run(host='0.0.0.0', port=5000, debug=True) 
