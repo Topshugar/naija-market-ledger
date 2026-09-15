@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Naija Ledger</title>
+</head>
+<body style="font-family:sans-serif;padding:15px;background:#f9f9f9">
+<h2>Naija Market Ledger</h2>
+<h3>Total: ₦{{total}}</h3>
+<form action="/add" method="post">
+<input name="item" placeholder="Item e.g Garri" required style="width:100%;padding:12px;margin-bottom:10px">
+<input name="amount" type="number" placeholder="Amount e.g 5000" required style="width:100%;padding:12px;margin-bottom:10px">
+<button style="width:100%;padding:12px;background:#000;color:#fff;border:0">Add Sale</button>
+</form>
+<hr>
+{% for s in sales %}
+<p><b>{{s[1]}}</b> - ₦{{s[2]}}<br><small>{{s[3]}}</small></p>
+{% endfor %}
+</body>
+  </html> 
