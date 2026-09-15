@@ -1,20 +1,49 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Naija Ledger</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Naija Market Ledger</title>
+<style>
+body{font-family:Arial,sans-serif;background:#f6f6f6;margin:0;padding:15px}
+.card{background:white;padding:15px;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,0.1);margin-bottom:15px}
+h1{color:#008751;text-align:center;margin:5px 0}
+.total{font-size:28px;font-weight:bold;color:#008751;text-align:center}
+input,button{width:100%;padding:14px;margin:6px 0;border-radius:8px;border:1px solid #ccc;font-size:16px;box-sizing:border-box}
+button{background:#008751;color:white;border:none;font-weight:bold}
+button:active{background:#006b41}
+.item-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #eee}
+.delete{color:red;text-decoration:none;font-weight:bold}
+.small{text-align:center;color:#777;font-size:13px}
+</style>
 </head>
-<body style="font-family:sans-serif;padding:15px;background:#f9f9f9">
-<h2>Naija Market Ledger</h2>
-<h3>Total: ₦{{total}}</h3>
-<form action="/add" method="post">
-<input name="item" placeholder="Item e.g Garri" required style="width:100%;padding:12px;margin-bottom:10px">
-<input name="amount" type="number" placeholder="Amount e.g 5000" required style="width:100%;padding:12px;margin-bottom:10px">
-<button style="width:100%;padding:12px;background:#000;color:#fff;border:0">Add Sale</button>
+<body>
+<div class="card">
+<h1>🇳🇬 Market Ledger</h1>
+<p class="small">Offline-first for low-end phones. No data needed.</p>
+<form method="POST">
+<input type="text" name="item" placeholder="Item name e.g. Rice" required>
+<input type="number" name="price" placeholder="Price in ₦" step="0.01" required>
+<input type="number" name="qty" placeholder="Quantity" value="1" required>
+<button type="submit">+ Add Sale</button>
 </form>
-<hr>
+</div>
+
+<div class="card">
+<div class="total">Total: ₦{{ "%.2f"|format(total) }}</div>
 {% for s in sales %}
-<p><b>{{s[1]}}</b> - ₦{{s[2]}}<br><small>{{s[3]}}</small></p>
+<div class="item-row">
+<span>{{ s[1] }} ({{ s[3] }} x ₦{{ s[2] }})</span>
+<span><b>₦{{ "%.2f"|format(s[2]*s[3]) }}</b> <a class="delete" href="/delete/{{ s[0] }}">X</a></span>
+</div>
 {% endfor %}
+{% if not sales %}
+<p class="small">No sales yet. Add your first sale above.</p>
+{% endif %}
+</div>
+
+<div class="card small">
+Built by Temitope from Suleja for market women. Works on Redmi A2+, Tecno Pop.
+</div>
 </body>
   </html> 
