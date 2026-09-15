@@ -26,11 +26,11 @@ Market women in Suleja, Onitsha, Aba lose sales records when phone dies or data 
 ### Support the Builder
 If you fork or use this, please support - built by Temitope from Suleja, Nigeria on a Redmi phone.
 
-BTC: `bc1q3yw98qlewgk7c52rv6zdlaqxqp692hxsa8h0zva4wrucwu7gpvcsk6rfcz`
+BTC: `bc1qwavmauhmd5scp3naqyuxhsg9pff837h3v9jnpyppmezw6mrk87gqaraat3`
 
 Scan to donate:
 
-![Donate BTC](btc_qr.png)
+![Donate BTC](https://api.qrserver.com/v1/create-qr-code/?size=400x400&data=bc1qwavmauhmd5scp3naqyuxhsg9pff837h3v9jnpyppmezw6mrk87gqaraat3)
 
 WhatsApp: +2348165043865
 GitHub: @Topshugar
